@@ -18,7 +18,7 @@ dt = float(sim_info[0][2])
 num_obs = int(sim_info[0][1])
 num_drone = int(sim_info[0][0])
 
-sim_steps = (len(sim_data_x)/num_drone/3)
+sim_steps = len(sim_data_x) // num_drone // 3
 ### SEND COMMANDS AT PLANNING TIME / NUM_UP CONTROL FREQUENCY
 for i in range(sim_steps):
     x_cmd = sim_data_x[i:i+num_drone] 

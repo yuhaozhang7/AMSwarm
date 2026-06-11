@@ -61,7 +61,7 @@ ax.plot([x_lim[1], x_lim[1]], [y_lim[0], y_lim[0]], [z_lim[0], z_lim[1]], color=
 
 collision_count_agent = 0
 collision_count_obs = 0
-sim_steps = (len(sim_data)/num_drone/3)
+sim_steps = len(sim_data) // num_drone // 3
 
 
 for i in range(sim_steps):

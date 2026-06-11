@@ -1,0 +1,9 @@
+docker run -it --rm \
+    --name amswarm_container \
+    --net=host \
+    --env="DISPLAY" \
+    --env="QT_X11_NO_MITSHM=1" \
+    --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
+    --mount type=bind,source="/home/yuhao/catkin_ws_ams",target=/catkin_ws \
+    amswarm_image \
+    bash
