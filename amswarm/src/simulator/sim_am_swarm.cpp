@@ -1,4 +1,5 @@
 #include "simulator/sim_am_swarm.hpp"
+#include <cstdlib>
 #include <thread>
 #include <ros/package.h>
 #include <ros/ros.h>
@@ -7,7 +8,18 @@
 Simulator :: Simulator(int cf_num, bool read_cf, int num_drones, bool use_model, std::vector<float> noise){
 
     path = ros :: package::getPath("amswarm");
-    params = YAML :: LoadFile(path+"/params/config_am_swarm.yaml");
+
+    std::string config_path = path+"/params/config_am_swarm.yaml";
+    const char* env_config_path = std::getenv("AMSWARM_CONFIG");
+    if(env_config_path != nullptr && std::string(env_config_path).size() > 0){
+        std::string requested_config(env_config_path);
+        if(requested_config[0] == '/')
+            config_path = requested_config;
+        else
+            config_path = path + "/" + requested_config;
+    }
+    params = YAML :: LoadFile(config_path);
+    ROS_INFO_STREAM("AMSwarm config: " << config_path);
 
     read_config = read_cf;
     config_num = cf_num;    
