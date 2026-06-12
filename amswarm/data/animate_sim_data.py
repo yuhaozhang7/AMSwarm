@@ -34,9 +34,24 @@ a_obs = dim_obs[:,0]
 b_obs = dim_obs[:,1]
 c_obs = dim_obs[:,2]
 
-x_lim = [-2, 2]
-y_lim = [-2, 2]
-z_lim = [+0.2, 2.2]
+all_points = np.vstack((init_drone, goal_drone))
+if num_obs > 0:
+    obs_min = pos_obs - dim_obs
+    obs_max = pos_obs + dim_obs
+    all_points = np.vstack((all_points, obs_min, obs_max))
+
+margin = 0.5
+mins = np.min(all_points, axis=0) - margin
+maxs = np.max(all_points, axis=0) + margin
+centers = 0.5 * (mins + maxs)
+span = np.max(maxs - mins)
+if span < 1.0:
+    span = 1.0
+half_span = 0.5 * span
+
+x_lim = [centers[0] - half_span, centers[0] + half_span]
+y_lim = [centers[1] - half_span, centers[1] + half_span]
+z_lim = [centers[2] - half_span, centers[2] + half_span]
 
 
 
@@ -64,6 +79,8 @@ ax.view_init(elev=60, azim=-77)
 ax.set_xlim(x_lim[0], x_lim[1])
 ax.set_ylim(y_lim[0], y_lim[1])
 ax.set_zlim(z_lim[0], z_lim[1])
+if hasattr(ax, "set_box_aspect"):
+    ax.set_box_aspect((1, 1, 1))
 
 phi_obs = np.linspace(0,2*np.pi, 10).reshape(10, 1) 
 theta_obs = np.linspace(0, np.pi/2, 10).reshape(-1, 10) 
@@ -164,7 +181,4 @@ for i in range(sim_steps):
         stats.remove()
 
 plt.show()
-
-
-
 

@@ -7,3 +7,5 @@ docker run -it --rm \
     --mount type=bind,source="/home/yuhao/catkin_ws_ams",target=/catkin_ws \
     amswarm_image \
     bash
+
+AMSWARM_CONFIG=params/env_raw_converted/config_am_swarm_env_1.yaml rosrun amswarm swarm_am_nav
